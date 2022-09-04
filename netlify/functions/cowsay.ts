@@ -1,6 +1,6 @@
+import cowsay from 'cowsayjs'
 import { readFile } from 'fs/promises'
 import { Handler } from '@netlify/functions'
-import cowsay from 'cowsayjs'
 import { Fortune, FortuneResponse, FORTUNE_TYPES } from '~types'
 
 async function readJsonFile(path: string): Promise<FortuneResponse> {
