@@ -10,6 +10,7 @@ export async function getRandomFortune(): Promise<Fortune> {
     const fortune = fortunes.fortunes[randomFortuneIndex]
     return fortune
   } catch (error) {
+    console.error(error)
     return {
       type: FORTUNE_TYPES.joke,
       lines: ['The world will end in 5 minutes.  Please log out.']
