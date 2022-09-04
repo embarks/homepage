@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cowsay should return a cow saying something 1`] = `
+Object {
+  "body": "{\\"message\\":\\" _____________ \\\\n< Hello World >\\\\n ------------- \\\\n        \\\\\\\\   ^__^\\\\n         \\\\\\\\  (oo)\\\\\\\\_______\\\\n            (__)\\\\\\\\       )\\\\\\\\/\\\\\\\\\\\\n                ||----w |\\\\n                ||     ||\\"}",
+  "headers": Object {
+    "Access-Control-Allow-Origin": "http://localhost:8080",
+  },
+  "statusCode": 200,
+}
+`;

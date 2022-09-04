@@ -1,0 +1,21 @@
+{
+  "quotes": [
+    {
+      "author": "Albert Einstein",
+      "lines": [
+        "Two things are infinite: the universe and human stupidity;",
+        "and I'm not sure about the universe."
+      ]
+    },
+    {
+      "author": "Kurt Vonnegut",
+      "lines": ["So it goes."]
+    },
+    {
+      "author": "Douglas Adams",
+      "lines": [
+        "I love deadlines. I like the whooshing sound they make as they fly by."
+      ]
+    }
+  ]
+}

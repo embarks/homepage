@@ -3,21 +3,7 @@
     <title>$ _</title>
     <link rel="stylesheet" href="main.css">
   </head>
-  <!-- (there's actually a lot of javascript) -->
-  <h1>look, ma, no javascript! 🏄</h1>
-  <pre class="md:flex-shrink-0 select-all whitespace-pre overflow-x-auto">
-
+  <pre id="pre" class="md:flex-shrink-0 select-all whitespace-pre overflow-x-auto">
   </pre>
-  <script>
-    // this is the only javascript in the entire project
-    fetch("https://develop.emwaves.org/.netlify/functions/cowsay").then((response) => {
-      if (response.ok) {
-        response.json().then(({ message }) => {
-          document.querySelector("pre").textContent = message;
-        });
-      }
-    }).catch(
-      e => document.querySelector("pre").innerText = "error: " + e
-    )
-  </script>
+  <script src="main.js"></script>
 </html>
