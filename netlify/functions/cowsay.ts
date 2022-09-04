@@ -1,12 +1,12 @@
 import { Handler } from "@netlify/functions";
-import { say } from "cowsay";
+import cowsay from "cowsayjs";
 
 const handler: Handler = async (event, context) => {
   // your server-side functionality
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: say({ text: "mo0ooOoo00ooooo00" }),
+      message: cowsay.moo("moooo00OOOOOOOOooooo..."),
     }),
   }
 };
