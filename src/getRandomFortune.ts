@@ -5,7 +5,7 @@ export async function getRandomFortune(): Promise<Fortune> {
   const randomType = Math.floor(Math.random() * fortuneTypes.length)
   const fortuneType = fortuneTypes[randomType]
   try {
-    const { fortunes } = await import(`./fortunes/${fortuneType}.json`)
+    const { fortunes } = await import(`../fortunes/${fortuneType}.json`)
     const randomFortuneIndex = Math.floor(Math.random() * fortunes.length)
     const fortune = fortunes.fortunes[randomFortuneIndex]
     return fortune
