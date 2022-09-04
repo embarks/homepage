@@ -10,7 +10,13 @@
   </pre>
   <script>
     // this is the only javascript in the entire project
-    fetch("https://develop.emwaves.org/.netlify/functions/cowsay").then(console.log).catch(
+    fetch("https://develop.emwaves.org/.netlify/functions/cowsay").then((response) => {
+      if (response.ok) {
+        response.json().then(({ message }) => {
+          document.querySelector("pre").textContent = message;
+        });
+      }
+    }).catch(
       e => document.querySelector("pre").innerText = "error: " + e
     )
   </script>

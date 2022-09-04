@@ -5,13 +5,10 @@ const handler: Handler = async (event, context) => {
   // your server-side functionality
   return {
     headers: {
-      // allow to request the api from the local dev server on port 8080
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "http://localhost:8080",
     },
     statusCode: 200,
-    body: JSON.stringify({
-      message: cowsay.moo("moooo00OOOOOOOOooooo..."),
-    }),
+    body: JSON.stringify({ message: cowsay.moo("moooo00OOOOOOOOooooo...") }),
   }
 };
 
