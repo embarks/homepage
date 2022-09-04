@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import cowsay from "cowsay";
+import * as cowsay from "cowsay";
 
 const handler: Handler = async (event, context) => {
   // your server-side functionality
