@@ -10,3 +10,7 @@ export type Fortune = {
   author?: string
   title?: string
 }
+
+export type FortuneResponse = {
+  fortunes: Fortune[]
+}

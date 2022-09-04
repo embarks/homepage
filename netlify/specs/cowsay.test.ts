@@ -1,7 +1,7 @@
 // test cowsay netlify function
-import { handler } from 'netlify/functions/cowsay'
-import { FORTUNE_TYPES } from '~types'
-import * as utils from 'src/getRandomFortune'
+import * as cowsay from 'netlify/functions/cowsay'
+
+const { handler } = cowsay
 
 describe('cowsay', () => {
   it('should return a cow saying something', async () => {
@@ -13,12 +13,5 @@ describe('cowsay', () => {
         console.log(message)
       }
     }).not.toThrowError()
-
-    const getFortune = jest.spyOn(utils, 'getRandomFortune')
-    getFortune.mockResolvedValue({
-      type: FORTUNE_TYPES.quote,
-      lines: ['Hello World']
-    })
-    expect(handler({} as any, {} as any)).resolves.toMatchSnapshot()
   })
 })

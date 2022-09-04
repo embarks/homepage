@@ -1,7 +1,27 @@
 import { Handler } from '@netlify/functions'
 import cowsay from 'cowsayjs'
-import { Fortune } from '~types'
-import { getRandomFortune } from 'src/getRandomFortune'
+import { Fortune, FortuneResponse, FORTUNE_TYPES } from '~types'
+
+async function getRandomFortune(): Promise<Fortune> {
+  const fortuneTypes = Object.values(FORTUNE_TYPES)
+  const randomType = Math.floor(Math.random() * fortuneTypes.length)
+  const fortuneType = fortuneTypes[randomType]
+  console.log('fortuneType', fortuneType)
+  try {
+    const { fortunes }: FortuneResponse = await import(
+      `../../fortunes/${fortuneType}.json`
+    )
+    const randomFortuneIndex = Math.floor(Math.random() * fortunes.length)
+    const fortune = fortunes[randomFortuneIndex]
+    return fortune
+  } catch (error) {
+    console.error(error)
+    return {
+      type: FORTUNE_TYPES.joke,
+      lines: ['The world will end in 5 minutes.  Please log out.']
+    }
+  }
+}
 
 const handler: Handler = async (event, context) => {
   const { lines }: Fortune = await getRandomFortune()

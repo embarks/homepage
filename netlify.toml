@@ -2,4 +2,4 @@
   publish = "dist/"
 
 [functions.cowsay]
-  included_files = ["./fortunes/**.json"]
+  included_files = ["fortunes/**.json"]
