@@ -1,7 +1,7 @@
 import { Handler } from '@netlify/functions'
 import cowsay from 'cowsayjs'
-import { Fortune } from '../../types'
-import { getRandomFortune } from './getRandomFortune'
+import { Fortune } from '~types'
+import { getRandomFortune } from 'src/getRandomFortune'
 
 const handler: Handler = async (event, context) => {
   const { lines }: Fortune = await getRandomFortune()

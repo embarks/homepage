@@ -1,7 +1,7 @@
 // test cowsay netlify function
-import { FORTUNE_TYPES } from '../../types'
-import { handler } from './cowsay'
-import * as utils from './getRandomFortune'
+import { handler } from 'netlify/functions/cowsay'
+import { FORTUNE_TYPES } from '~types'
+import * as utils from 'src/getRandomFortune'
 
 describe('cowsay', () => {
   it('should return a cow saying something', async () => {
