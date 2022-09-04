@@ -1,0 +1,19 @@
+{
+  "name": "homepage",
+  "version": "0.0.1",
+  "description": "dotorg dependencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/embarks/homepage.git"
+  },
+  "author": "em",
+  "license": "SEE LICENSE IN https://unlicense.org",
+  "bugs": {
+    "url": "https://github.com/embarks/homepage/issues"
+  },
+  "homepage": "https://github.com/embarks/homepage#readme"
+}
