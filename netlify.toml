@@ -1,2 +1,5 @@
 [build]
   publish = "dist/"
+
+[functions.cowsay]
+  included_files = ["fortunes/**.json"]
