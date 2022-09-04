@@ -1,15 +1,20 @@
+import { readFile } from 'fs/promises'
 import { Handler } from '@netlify/functions'
 import cowsay from 'cowsayjs'
 import { Fortune, FortuneResponse, FORTUNE_TYPES } from '~types'
+
+async function readJsonFile(path: string): Promise<FortuneResponse> {
+  const file = await readFile(path, 'utf8')
+  return JSON.parse(file)
+}
 
 async function getRandomFortune(): Promise<Fortune> {
   const fortuneTypes = Object.values(FORTUNE_TYPES)
   const randomType = Math.floor(Math.random() * fortuneTypes.length)
   const fortuneType = fortuneTypes[randomType]
-  console.log('fortuneType', fortuneType)
   try {
-    const { fortunes }: FortuneResponse = await import(
-      `../../fortunes/${fortuneType}.json`
+    const { fortunes }: FortuneResponse = await readJsonFile(
+      `fortunes/${fortuneType}.json`
     )
     const randomFortuneIndex = Math.floor(Math.random() * fortunes.length)
     const fortune = fortunes[randomFortuneIndex]
