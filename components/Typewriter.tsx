@@ -21,50 +21,38 @@ const Typewriter: FunctionComponent<TypewriterProps> = ({
   onStart,
   onEnd,
 }) => {
-  const [value, setValue] = useState<string>(isStatic ? text : '')
-  const indexRef = useRef<number>(0)
+  const [index, setIndex] = useState(0)
+
+  function updateValueIndex() {
+    if (index === 0) onStart?.()
+    setIndex(index + 1)
+    if (index === text.length) {
+      onEnd?.()
+      return
+    }
+    onChar?.(text.charAt(index))
+  }
+
+  useEffect(function start() {
+    if (isStatic) return
+    const timer = setTimeout(updateValueIndex, delay)
+    return function cleanup() {
+      clearTimeout(timer)
+    }
+  }, [])
 
   useEffect(
-    function startTextType() {
-      if (isStatic) {
-        return
-      }
-      let timer: NodeJS.Timeout,
-        initialDelay: NodeJS.Timeout = null
-
-      function updateValueIndex() {
-        if (indexRef.current === 0) onStart?.()
-        const currentValue = `${value}${text.charAt(indexRef.current)}`
-        setValue(currentValue)
-        onChar?.(text.charAt(indexRef.current))
-        indexRef.current += 1
-      }
-
-      // initial delay timeout
-      const start = () => {
-        initialDelay = setTimeout(updateValueIndex, delay)
-      }
-
-      if (indexRef.current === 0) {
-        start()
-      } else {
-        clearTimeout(initialDelay)
-        timer = setTimeout(updateValueIndex, speed)
-      }
-
-      if (indexRef.current === text.length) {
-        clearTimeout(timer)
-        onEnd?.()
-      }
-
-      // return a function to clear the timeout
+    function update() {
+      if (isStatic || index === 0) return
+      const timer = setTimeout(updateValueIndex, speed)
       return function cleanup() {
         clearTimeout(timer)
-        clearTimeout(initialDelay)
       }
     },
-    [value]
+    [index]
   )
+
+  const value = isStatic ? text : text.substring(0, index)
 
   return (
     <div

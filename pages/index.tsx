@@ -127,7 +127,7 @@ const IndexPage: NextPage<StaticHomePage> = (props) => {
   )
 }
 
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   return {
     props: {
       slides: [
@@ -138,7 +138,7 @@ export const getStaticProps = async () => {
         },
         {
           type: 'clear',
-          delay: 500,
+          delay: 1500,
         },
         {
           text: 'What do you call a cow with no legs?\n',
