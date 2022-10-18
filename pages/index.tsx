@@ -8,6 +8,7 @@ type Slide = {
   text?: string
   delay?: number
   size?: number
+  speed?: number
 }
 
 type StaticHomePage = {
@@ -34,32 +35,38 @@ const IndexPage: NextPage<StaticHomePage> = (props) => {
     [typewriterValue]
   )
 
-  useEffect(
-    function start() {
-      const initialTimeout = setTimeout(() => {
-        if (typewriterBlockIndex === undefined) {
-          setTypewriterBlockIndex(0)
-        }
-      }, props.slides[0].delay || 0)
+  useEffect(function start() {
+    const initialTimeout = setTimeout(() => {
+      setTypewriterBlockIndex(0)
+    }, props.slides[0].delay || 0)
 
-      return function cleanup() {
-        clearTimeout(initialTimeout)
-      }
-    },
+    return function cleanup() {
+      clearTimeout(initialTimeout)
+    }
+  }, [])
 
-    []
-  )
+  function onTypeStart() {
+    setIsTyping(true)
+  }
+
+  function onTypeEnd() {
+    setIsTyping(false)
+    const nextSlideIndex = typewriterBlockIndex + 1
+    if (nextSlideIndex < props.slides.length) {
+      setTimeout(() => {
+        setTypewriterBlockIndex(nextSlideIndex)
+      }, props.slides[nextSlideIndex].delay)
+    }
+  }
 
   useEffect(
     function clearTypewriter() {
       let timer: NodeJS.Timeout
-      if (typewriterBlockIndex !== undefined) {
-        if (currentSlide.type === 'clear') {
-          setClearIndex(typewriterBlockIndex)
-          timer = setTimeout(() => {
-            setTypewriterBlockIndex(typewriterBlockIndex + 1)
-          }, currentSlide.delay || 0)
-        }
+      if (typewriterBlockIndex !== undefined && currentSlide.type === 'clear') {
+        setClearIndex(typewriterBlockIndex)
+        timer = setTimeout(() => {
+          setTypewriterBlockIndex(typewriterBlockIndex + 1)
+        }, currentSlide.delay || 0)
       }
       return function cleanup() {
         clearTimeout(timer)
@@ -67,20 +74,6 @@ const IndexPage: NextPage<StaticHomePage> = (props) => {
     },
     [typewriterBlockIndex]
   )
-
-  function onStart() {
-    setIsTyping(true)
-  }
-
-  function onEnd() {
-    setIsTyping(false)
-    const nextSlideIndex = typewriterBlockIndex + 1
-    if (nextSlideIndex < props.slides.length) {
-      setTimeout(() => {
-        setTypewriterBlockIndex(typewriterBlockIndex + 1)
-      }, props.slides[typewriterBlockIndex + 1].delay)
-    }
-  }
 
   return (
     <div
@@ -113,16 +106,16 @@ const IndexPage: NextPage<StaticHomePage> = (props) => {
         <Typewriter
           key={typewriterBlockIndex}
           text={currentSlide.text}
-          onChar={(char) => setTypewriterValue(typewriterValue + char)}
-          onStart={onStart}
-          onEnd={onEnd}
+          onChar={(char) => setTypewriterValue((prev) => prev + char)}
+          onStart={onTypeStart}
+          onEnd={onTypeEnd}
           delay={currentSlide.delay}
           size={currentSlide.size}
-          speed={75}
+          speed={currentSlide.speed ?? 45}
         />
       )}
-      <Typewriter text="" isStatic size={8} />
-      <BlinkingCursor size={8} type="block" isBlinking={!isTyping} />
+      <Typewriter text="" isStatic size={4} />
+      <BlinkingCursor size={4} type="block" isBlinking={!isTyping} />
     </div>
   )
 }
@@ -134,21 +127,16 @@ export async function getStaticProps() {
         {
           text: 'loading jokes..............\n',
           delay: 0,
-          size: 8,
+          size: 4,
         },
         {
           type: 'clear',
           delay: 1500,
         },
         {
-          text: 'What do you call a cow with no legs?\n',
+          text: 'I went to a bookstore and asked the saleswoman, "Where\'s the self-help section?" She said if she told me, it would defeat the purpose.',
           delay: 0,
-          size: 8,
-        },
-        {
-          text: 'Ground beef.\n',
-          delay: 2000,
-          size: 8,
+          size: 4,
         },
       ],
     },
