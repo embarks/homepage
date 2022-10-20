@@ -1,0 +1,10 @@
+.blink {
+  animation: blink 1s step-start 0s infinite;
+  animation-delay: 1.1s;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
