@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react'
+import React, { FC, Suspense, useContext } from 'react'
 import { NextPage } from 'next'
 
 import c from 'classnames'
@@ -6,12 +6,9 @@ import SoftLogoTimes from '../components/SoftLogoTimes'
 import { ThemeContext } from '../contexts/theme'
 import dynamic from 'next/dynamic'
 
-const Timer = dynamic(
-  () => import('../components/Timer').then(({ Timer }) => Timer),
-  {
-    ssr: false,
-  }
-)
+const Timer = dynamic(() => import('../components/Timer'), {
+  suspense: true,
+})
 
 type StaticHomePage = {
   title: string
@@ -56,7 +53,11 @@ const InfoPanel = () => {
         >
           85053
         </a>
-        <Timer />
+        <div className="font-mono">
+          <Suspense fallback={`0000:00:00:00`}>
+            <Timer />
+          </Suspense>
+        </div>
       </Text>
     </div>
   )

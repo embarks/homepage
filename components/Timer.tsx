@@ -1,13 +1,9 @@
-// react timer that displays time in the following format:
-// HH:MM:SS:MS
-//
-
 import React, { FC, useEffect, useMemo, useState } from 'react'
 
 export const Timer: FC<{ startTime?: Date }> = ({
-  startTime = new Date(712925880),
+  startTime = new Date('Tue Aug 04 1992 10:58:00 GMT+0000'),
 }) => {
-  const { days, hours, minutes, seconds, milliseconds } = useMemo(() => {
+  const memo = useMemo(() => {
     const birthDate = startTime
     const today = new Date()
     let delta = today.getTime() - birthDate.getTime()
@@ -30,13 +26,20 @@ export const Timer: FC<{ startTime?: Date }> = ({
   }, [startTime])
 
   const [time, setTime] = useState({
-    hours: days * 24 + hours,
-    minutes,
-    seconds,
-    milliseconds,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    milliseconds: 0,
   })
 
+  const { days, hours, minutes, seconds, milliseconds } = memo
   useEffect(() => {
+    setTime({
+      hours: days * 24 + hours,
+      minutes,
+      seconds,
+      milliseconds,
+    })
     const interval = setInterval(() => {
       setTime((time) => {
         const { hours, minutes, seconds, milliseconds } = time
@@ -76,13 +79,15 @@ export const Timer: FC<{ startTime?: Date }> = ({
   }, [])
 
   return (
-    <div>
-      {`${time.hours.toString().padStart(4, '0')}:${time.minutes
+    <>
+      {`${time.hours.toString().padStart(6, '0')}:${time.minutes
         .toString()
         .padStart(2, '0')}:${time.seconds
         .toString()
         .padStart(2, '0')}:${time.milliseconds.toString().padStart(2, '0')}
     `}
-    </div>
+    </>
   )
 }
+
+export default Timer
