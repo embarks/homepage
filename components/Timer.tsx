@@ -76,10 +76,13 @@ export const Timer: FC<{ startTime?: Date }> = ({
 
   return (
     <div>
-      {time.hours.toString().padStart(4, '0')}:
-      {time.minutes.toString().padStart(2, '0')}:
-      {time.seconds.toString().padStart(2, '0')}:
-      {time.milliseconds.toString().padStart(2, '0')}
+      {`
+      ${time.hours.toString().padStart(4, '0')}:${time.minutes
+        .toString()
+        .padStart(2, '0')}:${time.seconds
+        .toString()
+        .padStart(2, '0')}:${time.milliseconds.toString().padStart(2, '0')}
+    `}
     </div>
   )
 }
