@@ -5,11 +5,12 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
 
 export const Timer: FC<{ startTime?: Date }> = ({
-  startTime = new Date('1992-08-04 03:58:00'),
+  startTime = new Date(712925880),
 }) => {
   const { days, hours, minutes, seconds, milliseconds } = useMemo(() => {
     const birthDate = startTime
-    let delta = Date.now() - birthDate.getTime()
+    const today = new Date()
+    let delta = today.getTime() - birthDate.getTime()
     const days = Math.floor(delta / 86400000)
     delta -= days * 86400000
     const hours = Math.floor(delta / 3600000) % 24
@@ -76,8 +77,7 @@ export const Timer: FC<{ startTime?: Date }> = ({
 
   return (
     <div>
-      {`
-      ${time.hours.toString().padStart(4, '0')}:${time.minutes
+      {`${time.hours.toString().padStart(4, '0')}:${time.minutes
         .toString()
         .padStart(2, '0')}:${time.seconds
         .toString()

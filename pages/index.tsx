@@ -4,7 +4,14 @@ import { NextPage } from 'next'
 import c from 'classnames'
 import SoftLogoTimes from '../components/SoftLogoTimes'
 import { ThemeContext } from '../contexts/theme'
-import { Timer } from '../components/Timer'
+import dynamic from 'next/dynamic'
+
+const Timer = dynamic(
+  () => import('../components/Timer').then(({ Timer }) => Timer),
+  {
+    ssr: false,
+  }
+)
 
 type StaticHomePage = {
   title: string
