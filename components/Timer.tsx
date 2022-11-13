@@ -1,12 +1,70 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
 
+interface Counter {
+  hours: number
+  minutes: number
+  seconds: number
+  milliseconds: number
+}
+
+const timeUpdate = (isFuture: boolean) => (time: Counter) => {
+  const { hours, minutes, seconds, milliseconds } = time
+
+  const diff = isFuture ? -1 : 1
+  const [nextMin, nextS, nextMs] = isFuture ? [59, 59, 99] : [0, 0, 0]
+  const [tickMs, tickS, tickM] = isFuture
+    ? [milliseconds === 0, seconds === 0, minutes === 0]
+    : [milliseconds === 99, seconds === 59, minutes === 59]
+
+  const newTimeMs = {
+    hours,
+    minutes,
+    seconds,
+    milliseconds: milliseconds + diff,
+  }
+
+  const newTimeS = {
+    hours,
+    minutes,
+    seconds: seconds + diff,
+    milliseconds: nextMs,
+  }
+
+  const newTimeM = {
+    hours,
+    minutes: minutes + diff,
+    seconds: nextS,
+    milliseconds: nextMs,
+  }
+
+  const newTimeH = {
+    hours: hours + diff,
+    minutes: nextMin,
+    seconds: nextS,
+    milliseconds: nextMs,
+  }
+
+  if (tickMs) {
+    if (tickS) {
+      if (tickM) {
+        return newTimeH
+      }
+      return newTimeM
+    }
+    return newTimeS
+  }
+  return newTimeMs
+}
+
 export const Timer: FC<{ startTime?: Date }> = ({
   startTime = new Date('Tue Aug 04 1992 10:58:00 GMT+0000'),
 }) => {
   const memo = useMemo(() => {
-    const birthDate = startTime
-    const today = new Date()
-    let delta = today.getTime() - birthDate.getTime()
+    const start = startTime.getTime()
+    const now = new Date().getTime()
+    const isFuture = start > now
+    const [left, right] = isFuture ? [start, now] : [now, start]
+    let delta = left - right
     const days = Math.floor(delta / 86400000)
     delta -= days * 86400000
     const hours = Math.floor(delta / 3600000) % 24
@@ -32,8 +90,9 @@ export const Timer: FC<{ startTime?: Date }> = ({
     milliseconds: 0,
   })
 
-  const { days, hours, minutes, seconds, milliseconds } = memo
   useEffect(() => {
+    const { days, hours, minutes, seconds, milliseconds } = memo
+    const isFuture = startTime.getTime() > new Date().getTime()
     setTime({
       hours: days * 24 + hours,
       minutes,
@@ -41,39 +100,7 @@ export const Timer: FC<{ startTime?: Date }> = ({
       milliseconds,
     })
     const interval = setInterval(() => {
-      setTime((time) => {
-        const { hours, minutes, seconds, milliseconds } = time
-        if (milliseconds === 99) {
-          if (seconds === 59) {
-            if (minutes === 59) {
-              return {
-                hours: hours + 1,
-                minutes: 0,
-                seconds: 0,
-                milliseconds: 0,
-              }
-            }
-            return {
-              hours,
-              minutes: minutes + 1,
-              seconds: 0,
-              milliseconds: 0,
-            }
-          }
-          return {
-            hours,
-            minutes,
-            seconds: seconds + 1,
-            milliseconds: 0,
-          }
-        }
-        return {
-          hours,
-          minutes,
-          seconds,
-          milliseconds: milliseconds + 1,
-        }
-      })
+      setTime(timeUpdate(isFuture))
     }, 10)
     return () => clearInterval(interval)
   }, [])

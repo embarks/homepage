@@ -27,7 +27,7 @@ const CanvasBG = () => {
       bg: 'black',
     },
     light: {
-      star: 'black',
+      star: 'purple',
       bg: 'white',
     },
   }
@@ -57,15 +57,48 @@ const CanvasBG = () => {
     <>
       <div ref={bgRef} style={fixedBgStyles}></div>
       <StarField
+        starRatio={69}
+        starShape="round"
         style={fixedBgStyles}
         width={canvasDims.width}
         height={canvasDims.height}
-        speed={0.2}
+        speed={0.1}
         fps={60}
         bgStyle={style[theme].bg}
         starStyle={style[theme].star}
       />
     </>
+  )
+}
+
+const ThemeSwitcher = () => {
+  const { theme, setTheme } = useContext(ThemeContext)
+  const style = {
+    dark: 'text-white',
+    light: 'text-black',
+  }
+  const frameText = {
+    light: ['[ ', ' ]'],
+    dark: ['( ', ' )'],
+  }
+  return (
+    <div className="absolute right-6 top-1 ">
+      <button
+        aria-label="toggle the color theme"
+        className={c(
+          style[theme],
+          'font-extralight w-16 text-left h-7 flex justify-between items-center'
+        )}
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      >
+        {
+          <>
+            <span>{frameText[theme][0]}</span>
+            <span>{`${theme}`}</span> <span>{frameText[theme][1]}</span>
+          </>
+        }
+      </button>
+    </div>
   )
 }
 
@@ -93,6 +126,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <ThemedBG />
+      <ThemeSwitcher />
       <div className="w-full h-full px-6 py-8 overflow-hidden">
         <div
           className={c(

@@ -7,7 +7,7 @@ function SoftLogoTimes() {
   return (
     <>
       <svg
-        viewBox="50.134 80.376 350.433 119.322"
+        viewBox="50.134 90.376 350.433 111.322"
         xmlns="http://www.w3.org/2000/svg"
         className="hidden md:block"
       >
