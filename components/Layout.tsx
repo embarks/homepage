@@ -27,8 +27,8 @@ const CanvasBG = () => {
       bg: 'black',
     },
     light: {
-      star: 'purple',
-      bg: 'white',
+      star: 'rgb(20, 20, 20)',
+      bg: 'rgb(244, 244, 244)',
     },
   }
 
@@ -55,10 +55,12 @@ const CanvasBG = () => {
 
   return (
     <>
-      <div ref={bgRef} style={fixedBgStyles}></div>
+      <div
+        ref={bgRef}
+        style={{ ...fixedBgStyles, backgroundColor: style[theme].bg }}
+      ></div>
       <StarField
-        starRatio={69}
-        starShape="round"
+        starRatio={169}
         style={fixedBgStyles}
         width={canvasDims.width}
         height={canvasDims.height}
@@ -77,24 +79,20 @@ const ThemeSwitcher = () => {
     dark: 'text-white',
     light: 'text-black',
   }
-  const frameText = {
-    light: ['[ ', ' ]'],
-    dark: ['( ', ' )'],
-  }
+
   return (
     <div className="absolute right-6 top-1 ">
       <button
         aria-label="toggle the color theme"
         className={c(
           style[theme],
-          'font-extralight w-16 text-left h-7 flex justify-between items-center'
+          'font-extralight text-xs w-20 text-left h-7 flex justify-around items-center'
         )}
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       >
         {
           <>
-            <span>{frameText[theme][0]}</span>
-            <span>{`${theme}`}</span> <span>{frameText[theme][1]}</span>
+            <span>{`[ ${theme}`}</span> <span>{`mode ]`}</span>
           </>
         }
       </button>
@@ -107,7 +105,7 @@ const ThemedBG = () => {
 
   const style = {
     dark: 'bg-black',
-    light: 'bg-white',
+    light: 'bg-neutral-100',
   }
   return (
     <div
@@ -121,7 +119,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const { theme } = useContext(ThemeContext)
   const style = {
     dark: 'border-opacity-30 border-white',
-    light: 'border-black',
+    light: 'border-black border-opacity-50',
   }
   return (
     <>
