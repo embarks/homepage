@@ -7,7 +7,7 @@ const fixedBgStyles: React.CSSProperties = {
   position: 'absolute',
   top: '0',
   left: '0',
-  zIndex: -1,
+  // zIndex: -1,
   bottom: '0',
   right: '0',
   backgroundColor: 'black',
@@ -57,11 +57,15 @@ const CanvasBG = () => {
     <>
       <div
         ref={bgRef}
-        style={{ ...fixedBgStyles, backgroundColor: style[theme].bg }}
+        style={{
+          ...fixedBgStyles,
+          backgroundColor: style[theme].bg,
+          zIndex: -1,
+        }}
       ></div>
       <StarField
         starRatio={169}
-        style={fixedBgStyles}
+        style={{ ...fixedBgStyles, zIndex: 0 }}
         width={canvasDims.width}
         height={canvasDims.height}
         speed={0.1}
@@ -81,7 +85,7 @@ const ThemeSwitcher = () => {
   }
 
   return (
-    <div className="absolute right-6 top-1 ">
+    <div className="absolute right-6 top-1 z-10">
       <button
         aria-label="toggle the color theme"
         className={c(
@@ -109,8 +113,10 @@ const ThemedBG = () => {
   }
   return (
     <div
-      className={c('fixed top-0 left-0 w-full h-full', style[theme])}
-      style={{ zIndex: -1 }}
+      className={c(
+        'fixed top-0 left-0 right-0 bottom-0 w-full h-full z-0',
+        style[theme]
+      )}
     ></div>
   )
 }
@@ -132,7 +138,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             style[theme]
           )}
         >
-          <main className="w-full h-full overflow-scroll p-4 md:px-12 z-10">
+          <main className="w-full h-full overflow-scroll p-4 md:px-12">
             {children}
             <CanvasBG />
           </main>

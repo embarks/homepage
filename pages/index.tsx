@@ -38,12 +38,20 @@ const Text: FC<{ children; className? }> = ({ children, className }) => {
   )
 }
 
+const Header = () => {
+  return (
+    <span className="select-none w-full">
+      <SoftLogoTimes />
+    </span>
+  )
+}
+
 const InfoPanel = () => {
   const birthDate = new Date('Tue Aug 04 1992 10:58:00 GMT+0000')
   const deathDate = new Date('Tue Aug 04 2076 10:58:00 GMT+0000')
   return (
     <div className="mt-4 w-full flex justify-between font-mono">
-      <Text className="leading-loose md:leading-relaxed">
+      <Text className="leading-loose md:leading-relaxed font-extralight font-sans">
         {`U.S.A. `}
         <a
           href="https://duckduckgo.com/?q=Phoenix%2C+Arizona+85053"
@@ -53,15 +61,15 @@ const InfoPanel = () => {
         >
           85053
         </a>
-        <div>
+        <div className="font-mono">
           <Suspense fallback={`0000:00:00:00`}>
             <Timer startTime={birthDate} />
           </Suspense>
         </div>
       </Text>
       <Text className="text-right md:text-left leading-loose md:leading-relaxed">
-        <Text>{'life 1'}</Text>
-        <div>
+        <Text className="font-sans font-extralight uppercase">{'life 1'}</Text>
+        <div className="font-mono">
           <Suspense fallback={`0000:00:00:00`}>
             <Timer startTime={deathDate} />
           </Suspense>
@@ -71,17 +79,9 @@ const InfoPanel = () => {
   )
 }
 
-const Header = () => {
-  return (
-    <span className="select-none w-full">
-      <SoftLogoTimes />
-    </span>
-  )
-}
-
 const IndexPage: NextPage<StaticHomePage> = (props) => {
   return (
-    <div className="flex flex-col w-full h-full justify-between items-start">
+    <div className="relative flex flex-col w-full h-full justify-between items-start z-10">
       <Header />
       <InfoPanel />
     </div>
