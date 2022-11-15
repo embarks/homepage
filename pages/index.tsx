@@ -1,10 +1,18 @@
-import React, { FC, Suspense, useContext } from 'react'
+import React, {
+  FC,
+  Suspense,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { NextPage } from 'next'
 
 import c from 'classnames'
 import SoftLogoTimes from '../components/SoftLogoTimes'
 import { ThemeContext } from '../contexts/theme'
 import dynamic from 'next/dynamic'
+import { StarField } from 'starfield-react'
 
 const Timer = dynamic(() => import('../components/Timer'), {
   suspense: true,
@@ -79,12 +87,95 @@ const InfoPanel = () => {
   )
 }
 
+const fixedBgStyles: React.CSSProperties = {
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  // zIndex: -1,
+  bottom: '0',
+  right: '0',
+  backgroundColor: 'black',
+}
+
+const CanvasBG = () => {
+  const [canvasDims, setCanvasDims] = useState({
+    width: undefined,
+    height: undefined,
+  })
+  const bgRef = useRef<HTMLDivElement>(null)
+  const { theme } = useContext(ThemeContext)
+
+  const style = {
+    dark: {
+      star: 'white',
+      bg: 'black',
+      fps: 60,
+      ratio: 169,
+    },
+    light: {
+      ratio: 4 / 3,
+      star: 'red',
+      shape: 'square',
+      bg: '#fdf5d0',
+      fps: 30,
+    },
+  }
+
+  useEffect(() => {
+    if (bgRef.current) {
+      const { width, height } = bgRef.current.getBoundingClientRect()
+      setCanvasDims({ width, height })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (bgRef.current) {
+      window.addEventListener('resize', () => {
+        if (bgRef.current) {
+          const { width, height } = bgRef.current.getBoundingClientRect()
+          setCanvasDims({
+            width,
+            height,
+          })
+        }
+      })
+    }
+  }, [])
+
+  return (
+    <>
+      <div
+        ref={bgRef}
+        style={{
+          ...fixedBgStyles,
+          backgroundColor: style[theme].bg,
+          zIndex: -1,
+        }}
+      ></div>
+      <StarField
+        starRatio={style[theme].ratio}
+        starShape={style[theme].shape}
+        style={{ ...fixedBgStyles, zIndex: 0 }}
+        width={canvasDims.width}
+        height={canvasDims.height}
+        speed={theme == 'light' ? 3 : 0.1}
+        fps={style[theme].fps}
+        bgStyle={style[theme].bg}
+        starStyle={style[theme].star}
+      />
+    </>
+  )
+}
+
 const IndexPage: NextPage<StaticHomePage> = (props) => {
   return (
-    <div className="relative flex flex-col w-full h-full justify-between items-start z-10">
-      <Header />
-      <InfoPanel />
-    </div>
+    <>
+      <div className="relative flex flex-col w-full h-full justify-between items-start z-10">
+        <Header />
+        <InfoPanel />
+      </div>
+      <CanvasBG />
+    </>
   )
 }
 

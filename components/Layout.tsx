@@ -1,81 +1,6 @@
 import c from 'classnames'
-import { useContext, useEffect, useRef, useState } from 'react'
-import { StarField } from 'starfield-react'
+import { useContext } from 'react'
 import { ThemeContext } from '../contexts/theme'
-
-const fixedBgStyles: React.CSSProperties = {
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  // zIndex: -1,
-  bottom: '0',
-  right: '0',
-  backgroundColor: 'black',
-}
-
-const CanvasBG = () => {
-  const [canvasDims, setCanvasDims] = useState({
-    width: undefined,
-    height: undefined,
-  })
-  const bgRef = useRef<HTMLDivElement>(null)
-  const { theme } = useContext(ThemeContext)
-
-  const style = {
-    dark: {
-      star: 'white',
-      bg: 'black',
-    },
-    light: {
-      star: 'rgb(20, 20, 20)',
-      bg: 'rgb(244, 244, 244)',
-    },
-  }
-
-  useEffect(() => {
-    if (bgRef.current) {
-      const { width, height } = bgRef.current.getBoundingClientRect()
-      setCanvasDims({ width, height })
-    }
-  }, [])
-
-  useEffect(() => {
-    if (bgRef.current) {
-      window.addEventListener('resize', () => {
-        if (bgRef.current) {
-          const { width, height } = bgRef.current.getBoundingClientRect()
-          setCanvasDims({
-            width,
-            height,
-          })
-        }
-      })
-    }
-  }, [])
-
-  return (
-    <>
-      <div
-        ref={bgRef}
-        style={{
-          ...fixedBgStyles,
-          backgroundColor: style[theme].bg,
-          zIndex: -1,
-        }}
-      ></div>
-      <StarField
-        starRatio={169}
-        style={{ ...fixedBgStyles, zIndex: 0 }}
-        width={canvasDims.width}
-        height={canvasDims.height}
-        speed={0.1}
-        fps={60}
-        bgStyle={style[theme].bg}
-        starStyle={style[theme].star}
-      />
-    </>
-  )
-}
 
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useContext(ThemeContext)
@@ -85,12 +10,12 @@ const ThemeSwitcher = () => {
   }
 
   return (
-    <div className="absolute right-6 top-1 z-10">
+    <div className="absolute right-6 top-0 z-10">
       <button
         aria-label="toggle the color theme"
         className={c(
           style[theme],
-          'font-extralight text-xs w-20 text-left h-7 flex justify-around items-center'
+          'font-extralight text-xs w-20 text-left h-11 flex justify-around items-center'
         )}
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       >
@@ -109,7 +34,7 @@ const ThemedBG = () => {
 
   const style = {
     dark: 'bg-black',
-    light: 'bg-neutral-100',
+    light: 'bg-[#fdf5d0]',
   }
   return (
     <div
@@ -131,7 +56,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <>
       <ThemedBG />
       <ThemeSwitcher />
-      <div className="w-full h-full px-6 py-8 overflow-hidden">
+      <div className="w-full h-full px-6 py-11 overflow-hidden">
         <div
           className={c(
             'h-full w-full box-border relative border',
@@ -140,7 +65,6 @@ function Layout({ children }: { children: React.ReactNode }) {
         >
           <main className="w-full h-full overflow-scroll p-4 md:px-12">
             {children}
-            <CanvasBG />
           </main>
         </div>
       </div>
