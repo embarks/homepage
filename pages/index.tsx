@@ -7,12 +7,11 @@ import React, {
   useState,
 } from 'react'
 import { NextPage } from 'next'
-
-import c from 'classnames'
 import SoftLogoTimes from '../components/SoftLogoTimes'
 import { ThemeContext } from '../contexts/theme'
 import dynamic from 'next/dynamic'
 import { StarField } from 'starfield-react'
+import c from 'classnames'
 
 const Timer = dynamic(() => import('../components/Timer'), {
   suspense: true,
@@ -87,15 +86,7 @@ const InfoPanel = () => {
   )
 }
 
-const fixedBgStyles: React.CSSProperties = {
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  // zIndex: -1,
-  bottom: '0',
-  right: '0',
-  backgroundColor: 'black',
-}
+const fixedBgClass = 'absolute top-0 left-0 right-0 bottom-0'
 
 const CanvasBG = () => {
   const [canvasDims, setCanvasDims] = useState({
@@ -104,22 +95,6 @@ const CanvasBG = () => {
   })
   const bgRef = useRef<HTMLDivElement>(null)
   const { theme } = useContext(ThemeContext)
-
-  const style = {
-    dark: {
-      star: 'white',
-      bg: 'black',
-      fps: 60,
-      ratio: 169,
-    },
-    light: {
-      ratio: 4 / 3,
-      star: 'red',
-      shape: 'square',
-      bg: '#fdf5d0',
-      fps: 30,
-    },
-  }
 
   useEffect(() => {
     if (bgRef.current) {
@@ -142,27 +117,47 @@ const CanvasBG = () => {
     }
   }, [])
 
+  const sun = (
+    <div
+      className={c(
+        theme == 'light' ? 'visible' : 'invisible',
+        'z-[0] absolute top-0 left-0 w-full h-full flex justify-center items-center'
+      )}
+    >
+      <div className="sun aspect-square w-[70%] md:w-auto md:h-[30%]">
+        <div className="ray"></div>
+        <div className="ray"></div>
+        <div className="ray"></div>
+        <div className="ray"></div>
+        <div className="ray"></div>
+        <div className="ray"></div>
+        <div className="ray"></div>
+      </div>
+    </div>
+  )
+
+  const starField = (
+    <StarField
+      className={c(
+        fixedBgClass,
+        theme == 'dark' ? 'visible' : 'invisible',
+        'z-0'
+      )}
+      starRatio={169}
+      starShape={'square'}
+      starSize={1}
+      width={canvasDims.width}
+      height={canvasDims.height}
+      speed={0.1}
+      fps={60}
+    />
+  )
+
   return (
     <>
-      <div
-        ref={bgRef}
-        style={{
-          ...fixedBgStyles,
-          backgroundColor: style[theme].bg,
-          zIndex: -1,
-        }}
-      ></div>
-      <StarField
-        starRatio={style[theme].ratio}
-        starShape={style[theme].shape}
-        style={{ ...fixedBgStyles, zIndex: 0 }}
-        width={canvasDims.width}
-        height={canvasDims.height}
-        speed={theme == 'light' ? 3 : 0.1}
-        fps={style[theme].fps}
-        bgStyle={style[theme].bg}
-        starStyle={style[theme].star}
-      />
+      <div ref={bgRef} className={c(fixedBgClass, '-z-[1] bg-black')}></div>
+      {starField}
+      {sun}
     </>
   )
 }

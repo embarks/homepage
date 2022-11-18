@@ -59,7 +59,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <div className="w-full h-full px-6 py-11 overflow-hidden">
         <div
           className={c(
-            'h-full w-full box-border relative border',
+            'h-full w-full box-border relative border overflow-hidden',
             style[theme]
           )}
         >
