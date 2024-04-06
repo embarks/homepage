@@ -9,10 +9,12 @@ body,
   @apply bg-black;
 }
 
+svg {
+  fill: currentColor;
+}
+
 .sun {
   position: relative;
-  /* width: 200px; */
-  /* height: 200px; */
   background-color: #f55e27;
   border-radius: 50%;
   z-index: 1;
@@ -62,18 +64,6 @@ div.ray:nth-of-type(6) {
 div.ray:nth-of-type(6) {
   animation: rays 3s 4s infinite ease-in;
   background: #f55e2740;
-}
-
-.rays {
-  /*content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 99%;
-	width: 99%;
-	border-radius: 50%;
-	animation: rays 2s 0.15s infinite ease-in;
-	background: #f55e2740;*/
 }
 
 @keyframes rays {
