@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 import c from 'classnames'
-import useMangle from '../functions/mangle'
+import useMangle from '../hooks/mangle'
 import { ThemeContext } from '../contexts/theme'
 import { baseStyle, textStyle } from '.'
 import {

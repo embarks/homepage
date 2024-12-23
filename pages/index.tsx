@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import c from 'classnames'
 import { ThemeContext } from '../contexts/theme'
 import { StarIcon } from '../components/StarIcon'
-import useMangle from '../functions/mangle'
+import useMangle from '../hooks/mangle'
 import Link from 'next/link'
 import {
   TextLayout,
