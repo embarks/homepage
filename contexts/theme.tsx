@@ -2,9 +2,12 @@ import React, { createContext, useEffect, useState } from 'react'
 
 type Theme = 'light' | 'dark'
 
-export const ThemeContext = createContext({
+export const ThemeContext = createContext<{
+  theme: Theme
+  setTheme: (theme: Theme) => void
+}>({
   theme: 'dark',
-  setTheme: (theme: Theme) => null,
+  setTheme: (_: Theme) => null,
 })
 
 const ThemeContextProvider = (props) => {
@@ -12,7 +15,6 @@ const ThemeContextProvider = (props) => {
   const _setTheme = (theme) => {
     setTheme(theme)
   }
-  useEffect(() => {}, [theme])
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme: _setTheme }}>

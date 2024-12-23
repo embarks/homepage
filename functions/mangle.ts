@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const mangle = (str: string) => {
   // for every letter in a word, replace it with a random letter from somewhere else in the word
@@ -34,25 +34,6 @@ const useMangle = (str: string) => {
     ).sort(() => Math.random() - 0.5)
 
     const interval = setInterval(() => {
-      // fix the mangled word one letter at a time
-      // when the mangled word is the same as the original, stop the interval
-      //   _setMangledWord((mangledWord) => {
-      //     const mangledWordArray = mangledWord.split('')
-      //     const strArray = str.split('')
-      //     const nextLetterIndex = mangledWordArray.findIndex(
-      //       (letter, i) => letter !== strArray[i]
-      //     )
-      //     if (nextLetterIndex === -1) {
-      //       clearInterval(interval)
-      //       isMangling.current = false
-      //       return str
-      //     }
-      //     const nextLetter = strArray[nextLetterIndex]
-      //     mangledWordArray[nextLetterIndex] = nextLetter
-      //     return mangledWordArray.join('')
-      //   })
-      // }, 50)
-
       _setMangledWord((prev) => {
         // check all the letters at the indexes in the shuffled order
         // if any of them are wrong, fix them
@@ -72,7 +53,7 @@ const useMangle = (str: string) => {
         }
         return mangledWordArray.join('')
       })
-    }, 50)
+    }, 75)
   }
 
   return { text: mangledWord, triggerMangle }

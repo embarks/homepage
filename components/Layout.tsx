@@ -1,21 +1,17 @@
 import c from 'classnames'
 import { useContext } from 'react'
 import { ThemeContext } from '../contexts/theme'
+import { CanvasBG } from './CanvasBG'
 
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useContext(ThemeContext)
-  const style = {
-    dark: 'text-white',
-    light: 'text-black',
-  }
 
   return (
     <div className="absolute right-6 top-0 z-20">
       <button
         aria-label="toggle the color theme"
         className={c(
-          style[theme],
-          'font-extralight font-sans text-xs w-20 text-left h-11 flex justify-around items-center'
+          'dark:text-white text-black font-extralight font-sans text-xs w-20 text-left h-11 flex justify-around items-center'
         )}
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       >
@@ -30,23 +26,17 @@ const ThemeSwitcher = () => {
 }
 
 const ThemedBG = () => {
-  const { theme } = useContext(ThemeContext)
-
-  const style = {
-    dark: 'bg-black',
-    light: 'bg-[#fdf5d0]',
-  }
   return (
     <div
       className={c(
-        'fixed top-0 left-0 right-0 bottom-0 w-full h-full z-0',
-        style[theme]
+        'fixed top-0 left-0 right-0 bottom-0 w-full h-full z-0 dark:bg-black bg-[#fdf5d0]'
       )}
     ></div>
   )
 }
 
 function Layout({ children }: { children: React.ReactNode }) {
+  const { theme } = useContext(ThemeContext)
   return (
     <>
       <noscript>
@@ -108,8 +98,9 @@ function Layout({ children }: { children: React.ReactNode }) {
               Just read: <em>Shogun</em> by James Clavell.
             </p>
             <p>
-              Currently reading: <em>The Expanse</em> series by James S.A.
-              Corey.
+              Currently reading:{' '}
+              <em>Four Thousand Weeks: Time Management for Mortals</em> by
+              Oliver Burkeman.
             </p>
             <p>
               I am a designer and developer with a background in art and
@@ -117,8 +108,8 @@ function Layout({ children }: { children: React.ReactNode }) {
               <a href="https://nau.edu">Northern Arizona University</a>. I
               currently work for{' '}
               <a href="https://www.harrys.com/en/us">Harry's</a> as a director
-              of software engineering. I've also worked at{' '}
-              <a href="https://formidable.com">Formidable</a>,{' '}
+              of software engineering. I've also worked as a software engineer
+              at <a href="https://formidable.com">Formidable</a>,{' '}
               <a href="https://gdmissionsystems.com/">General Dynamics</a>, and
               the{' '}
               <a href="https://www.usgs.gov/centers/astrogeology-science-center">
@@ -134,10 +125,13 @@ function Layout({ children }: { children: React.ReactNode }) {
               review, career success, and new developments in the tech industry.
             </p>
             <p>
-              I value collective knowledge, freedom of speech, and fostering my
-              connection to Earth and nature. I rely on reason, friendship, and
-              good humor to guide my life. While I am not currently looking for
-              work, I am always open to new connections and opportunities.
+              I think the most important thing about humanity is our ability to
+              collect knowledge and share it with each other. My most radical
+              view is that all humans should leave Earth in order to preserve
+              it, and support ourselves through technology. I rely on reason,
+              friendship, and good humor to guide my life. While I am not
+              currently looking for work, I am always open to new connections
+              and opportunities.
             </p>
             <br />
             <hr style={{ width: '50%' }} />
@@ -161,11 +155,12 @@ function Layout({ children }: { children: React.ReactNode }) {
         `}
         </style>
       </noscript>
-      <div id="app" className="h-full">
+      <div id="app" className={c('h-full', theme)}>
         <ThemedBG />
         <ThemeSwitcher />
         <div className="h-full w-full box-border relative overflow-hidden">
           {children}
+          <CanvasBG />
         </div>
       </div>
     </>
