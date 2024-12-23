@@ -35,8 +35,7 @@ const AboutPage: NextPage<StaticAboutPage> = () => {
         <span className="fill-white flex items-center">
           <HeartIcon
             className={classNames(
-              'dark:fill-white transition-transform hover:-translate-y-1',
-              'animate-ping'
+              'dark:fill-white transition-transform hover:-translate-y-1'
             )}
           />
         </span>

@@ -40,7 +40,7 @@ const IndexPage: NextPage<StaticHomePage> = () => {
       <Title heading={myName.text}>
         <span className="fill-white flex items-center">
           <StarIcon
-            className="transition-transform hover:-translate-y-1 animate-ping"
+            className="transition-transform hover:-translate-y-1"
             onClick={() => myName.triggerMangle()}
           />
         </span>
