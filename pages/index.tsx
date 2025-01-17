@@ -45,7 +45,6 @@ const IndexPage: NextPage<StaticHomePage> = () => {
           />
         </span>
       </Title>
-
       <Subtitle>Information Technology Design</Subtitle>
 
       <LinkSection>

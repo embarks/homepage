@@ -14,6 +14,7 @@ import { StarIcon } from '../components/StarIcon'
 import Link from 'next/link'
 import classNames from 'classnames'
 import { HeartIcon } from '../components/HeartIcon'
+import { useRouter } from 'next/router'
 
 type StaticAboutPage = {
   title: string
@@ -21,34 +22,65 @@ type StaticAboutPage = {
 
 const AboutPage: NextPage<StaticAboutPage> = () => {
   const { theme } = useContext(ThemeContext)
+  const [raiseUpClass, setRaiseUpClass] = useState('')
+  const router = useRouter()
 
   const home = useMangle('Home')
   const about = useMangle('About Me')
-  useEffect(() => {
+
+  function triggerTransition(e: string) {
+    setRaiseUpClass('translate-y-0')
+    setTimeout(() => router.push('/'), 250)
+  }
+
+  useEffect(function triggerMangle() {
     home.triggerMangle()
     about.triggerMangle()
   }, [])
 
+  useEffect(function raiseUp() {
+    setRaiseUpClass('-translate-y-10 delay-700')
+  }, [])
+
   return (
     <TextLayout theme={theme}>
-      <Title heading={about.text}>
-        <span className="fill-white flex items-center">
-          <HeartIcon
+      <Title
+        heading={
+          <span
             className={classNames(
-              'dark:fill-white transition-transform hover:-translate-y-1'
+              'relative block transition-transform',
+              raiseUpClass
             )}
+          >
+            {about.text}
+          </span>
+        }
+      >
+        <span
+          className={classNames(
+            'fill-white flex items-center  transition-transform ',
+            raiseUpClass
+          )}
+        >
+          <HeartIcon
+            className={classNames('dark:fill-white hover:-translate-y-1 ml-2')}
           />
         </span>
       </Title>
-      <Subtitle className="h-full items-center [&>h2]:h-full">{`Just Trying Something`}</Subtitle>
+      <Subtitle
+        className={classNames('h-full items-center [&>h2]:h-full')}
+      >{`Just Trying Something`}</Subtitle>
       <div>
         <h2></h2>
       </div>
 
       <LinkSection className={textStyle[theme]}>
-        <Link className={c(baseStyle, 'text-left', textStyle[theme])} href="/">
+        <button
+          className={c(baseStyle, 'text-left', textStyle[theme])}
+          onClick={() => triggerTransition('clicked')}
+        >
           {home.text}
-        </Link>
+        </button>
         <div className={c(baseStyle, 'text-center', textStyle[theme])}>xxx</div>
         <div className={c(baseStyle, 'text-right', textStyle[theme])}>xxx</div>
       </LinkSection>

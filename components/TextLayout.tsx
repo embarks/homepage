@@ -6,11 +6,17 @@ import classNames from 'classnames'
 interface TextLayoutProps {
   theme: 'dark' | 'light'
   children: React.ReactNode
+  className?: string
 }
 
-export const TextLayout = ({ theme, children }: TextLayoutProps) => {
+export const TextLayout = ({ theme, children, className }: TextLayoutProps) => {
   return (
-    <div className="relative w-full h-full z-10 flex justify-center items-center">
+    <div
+      className={classNames(
+        'relative w-full h-full z-10 flex justify-center items-center',
+        className
+      )}
+    >
       <span className={c(textStyle[theme], 'w-display')}>{children}</span>
     </div>
   )
@@ -34,13 +40,20 @@ export const LinkSection = ({
 
 export const Title = ({
   heading,
+  className,
   children,
 }: {
-  heading: string
+  heading: string | React.ReactNode
+  className?: string
   children: React.ReactNode
 }) => {
   return (
-    <div className="flex uppercase justify-between text-xl fill-white">
+    <div
+      className={classNames(
+        'flex uppercase justify-between text-xl fill-white',
+        className
+      )}
+    >
       <h1>{heading}</h1>
       {children}
     </div>
